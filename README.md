@@ -9,6 +9,8 @@ and [Kotlin](https://github.com/gatling/gatling-maven-plugin-demo-kotlin).
 
 It includes:
 
+* [Maven Wrapper](https://maven.apache.org/wrapper/), so that you can immediately run Maven with `./mvnw` without having
+  to install it on your computer
 * minimal `pom.xml`
 * latest version of `io.gatling:gatling-maven-plugin` applied
 * sample [Simulation](https://gatling.io/docs/gatling/reference/current/general/concepts/#simulation) class,
