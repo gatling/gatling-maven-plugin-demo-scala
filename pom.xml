@@ -14,7 +14,7 @@
     <gatling.version>${project.version}</gatling.version>
     <gatling-maven-plugin.version>4.2.7</gatling-maven-plugin.version>
     <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
-    <scala-maven-plugin.version>4.7.1</scala-maven-plugin.version>
+    <scala-maven-plugin.version>4.7.2</scala-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -47,7 +47,6 @@
                 <jvmArg>-Xss100M</jvmArg>
               </jvmArgs>
               <args>
-                <arg>-target:jvm-1.8</arg>
                 <arg>-deprecation</arg>
                 <arg>-feature</arg>
                 <arg>-unchecked</arg>
