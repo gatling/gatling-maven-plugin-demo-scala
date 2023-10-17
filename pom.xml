@@ -47,6 +47,9 @@
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
         <version>${scala-maven-plugin.version}</version>
+        <configuration>
+          <scalaVersion>2.13.12</scalaVersion>
+        </configuration>
         <executions>
           <execution>
             <goals>
