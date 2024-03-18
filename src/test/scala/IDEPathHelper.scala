@@ -1,15 +1,19 @@
-import java.nio.file.Paths
-import java.util.Objects.requireNonNull
+import java.io.File
+import java.nio.file.Path
 
 object IDEPathHelper {
 
-	private val projectRootDir = Paths.get(requireNonNull(getClass.getResource("gatling.conf"), "Couldn't locate gatling.conf").toURI).getParent.getParent.getParent
-	private val mavenTargetDirectory = projectRootDir.resolve("target")
+	val mavenBinariesDirectory = System.getProperty("java.class.path")
+		.split(File.pathSeparator)
+		.collectFirst { case cpe if cpe.endsWith("test-classes") => Path.of(cpe) }
+		.getOrElse(throw new IllegalStateException("Couldn't locate test-classes"))
+
+	private val mavenTargetDirectory = mavenBinariesDirectory.getParent
+	private val projectRootDir = mavenTargetDirectory.getParent
 	private val mavenSrcTestDirectory = projectRootDir.resolve("src").resolve("test")
 
 	val mavenSourcesDirectory = mavenSrcTestDirectory.resolve("scala")
 	val mavenResourcesDirectory = mavenSrcTestDirectory.resolve("resources")
-	val mavenBinariesDirectory = mavenTargetDirectory.resolve("test-classes")
 	val resultsDirectory = mavenTargetDirectory.resolve("gatling")
 	val recorderConfigFile = mavenResourcesDirectory.resolve("recorder.conf")
 }
