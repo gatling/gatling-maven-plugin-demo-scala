@@ -1,0 +1,47 @@
+name: Build and Upload to BlazeMeter
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build JAR
+        run: ./mvnw clean install
+
+      - name: Upload JAR to BlazeMeter
+        run: |
+          curl "https://a.blazemeter.com/api/v4/tests/${{ vars.BZM_TEST_ID }}/files" \
+            -X POST \
+            -F "file=@target/gatling-maven-plugin-demo-scala-3.13.4.jar" \
+            --user "${{ secrets.BZM_API_KEY }}:"
+
+      - name: Upload Taurus YAML to BlazeMeter
+        run: |
+          curl "https://a.blazemeter.com/api/v4/tests/${{ vars.BZM_TEST_ID }}/files" \
+            -X POST \
+            -F "file=@src/test/resources/taurus.yaml" \
+            --user "${{ secrets.BZM_API_KEY }}:"
+
+      - name: Start BlazeMeter Test
+        run: |
+          curl "https://a.blazemeter.com/api/v4/tests/${{ vars.BZM_TEST_ID }}/start?delayedStart=false" \
+            -X POST \
+            -H 'Content-Type: application/json' \
+            --user "${{ secrets.BZM_API_KEY }}:"
+        env:
+          BZM_TEST_ID: ${{ vars.BZM_TEST_ID }}
+          BZM_API_KEY: ${{ secrets.BZM_API_KEY }}
