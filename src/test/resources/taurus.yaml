@@ -1,0 +1,15 @@
+execution:
+  - executor: gatling
+    scenario: sample
+
+scenarios:
+  sample:
+    script: gatling-maven-plugin-demo-scala-3.13.4.jar
+    simulation: computerdatabase.ComputerDatabaseSimulation
+
+modules:
+  version-switch:
+    switch-java: 17
+  gatling:
+    properties:
+      version: 3.13.4
